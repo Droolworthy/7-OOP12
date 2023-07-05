@@ -1,4 +1,4 @@
-﻿namespace OOP12
+namespace OOP12
 {
     internal class Program
     {
@@ -26,13 +26,14 @@
             int aviaryTigers = 0;
             int aviaryBears = 1;
             int aviaryWolfs = 2;
-            int aviaryBirds = 3;
+            int aviaryLynxs = 3;
             int commandExit = 4;
 
             Console.WriteLine($"Вольер с тиграми - {aviaryTigers}");
             Console.WriteLine($"Вольер с медведями - {aviaryBears}");
             Console.WriteLine($"Вольер с волками - {aviaryWolfs}");
-            Console.WriteLine($"Вольер с рысью - {aviaryBirds} \nВыход - {commandExit}");
+            Console.WriteLine($"Вольер с рысью - {aviaryLynxs}");
+            Console.WriteLine($"Выход - {commandExit}");
 
             while (isWork)
             {
@@ -41,13 +42,46 @@
 
                 if (int.TryParse(userInput, out int numberCage))
                 {
-                    if (numberCage == commandExit)
+                    if (numberCage == aviaryTigers)
+                    {
+                        Console.WriteLine("\nПеред вами вольер с тиграми. \n\nТигр — хищное млекопитающее семейства кошачьих, " +
+                            "один из пяти видов рода пантер, принадлежащего к подсемейству больших кошек.");
+                        Console.WriteLine($"\nКолличество тигров: {_aviaries[0].GetAnimalsCount()}\n");
+
+                        ShowAviaries(numberCage);
+                    }
+                    else if (numberCage == aviaryBears)
+                    {
+                        Console.WriteLine("\nПеред вами вольер с медведями. \n\nМедведь - крупное хищное всеядное млекопитающее с большим " +
+                            "грузным, покрытым густой шерстью телом и короткими ногами.");
+                        Console.WriteLine($"\nКолличество медведей: {_aviaries[1].GetAnimalsCount()}\n");
+
+                        ShowAviaries(numberCage);
+                    }
+                    else if (numberCage == aviaryWolfs)
+                    {
+                        Console.WriteLine("\nПеред вами вольер с волками. \n\nВолк – это хищное животное из класса млекопитающих. " +
+                            "Множественные исследования показывают, что это предок собаки.");
+                        Console.WriteLine($"\nКолличество волков: {_aviaries[2].GetAnimalsCount()}\n");
+
+                        ShowAviaries(numberCage);
+                    }
+                    else if (numberCage == aviaryLynxs)
+                    {
+                        Console.WriteLine("\nПеред вами вольер с рысью. \n\nХищное животное из семейства кошачьих, " +
+                            "с заостренной мордой и очень острым зрением.");
+                        Console.WriteLine($"\nКолличество рысей: {_aviaries[3].GetAnimalsCount()}\n");
+
+                        ShowAviaries(numberCage);
+                    }
+                    else if (numberCage == commandExit)
                     {
                         isWork = false;
                     }
                     else
                     {
-                        ShowAviaries(numberCage);
+                        Console.WriteLine($"Такого вольера не существует. Введите номер вольера {aviaryTigers}, {aviaryBears}, {aviaryWolfs}, " +
+                            $"{aviaryLynxs} или {commandExit} - для выхода из приложения.");
                     }
                 }
                 else
@@ -69,14 +103,7 @@
 
         private void ShowAviaries(int index)
         {
-            if (index >= 0 && index < _aviaries.Count)
-            {
-                _aviaries[index].ShowAnimals();
-            }
-            else
-            {
-                Console.WriteLine("Ошибка. Попробуйте ещё раз.");
-            }
+            _aviaries[index].ShowAnimals();
         }
     }
 
@@ -112,6 +139,11 @@
             }
         }
 
+        public int GetAnimalsCount()
+        {
+            return _animals.Count;
+        }
+
         private void CreateAnimals(int index)
         {
             int minimumNumberAnimals = 3;
@@ -119,68 +151,39 @@
 
             for (int i = 0; i < UserUtils.GenerateRandomNumber(minimumNumberAnimals, maximumNumberAnimals); i++)
             {
-                _animals.Add(GetAnimalsByIndex(index));
+                _animals.Add(GetAnimalByIndex(index));
             }
         }
 
-        private Animal GetAnimalsByIndex(int index)
+        private Animal GetAnimalByIndex(int index)
         {
-            string[] genders = Array.Empty<string>();
-            string[] beasts = Array.Empty<string>();
-            string[] soundTigers = Array.Empty<string>();
-            string[] soundBears = Array.Empty<string>();
-            string[] soundWolfs = Array.Empty<string>();
-            string[] soundLynxs = Array.Empty<string>();
-
-            string descriptionAviaryTigers = "";
-            string descriptionAviaryBears = "";
-            string descriptionAviaryWolfs = "";
-            string descriptionAviaryLynxs = "";
-
-            DescribeAnimals(ref genders, ref beasts, ref soundTigers, ref soundBears, ref soundWolfs, ref soundLynxs, ref descriptionAviaryTigers,
-                ref descriptionAviaryBears, ref descriptionAviaryWolfs, ref descriptionAviaryLynxs);
+            string[] genders = new string[] { "Женский", "Мужской" };
+            string[] beasts = new string[] { "Тигр", "Медведь", "Волк", "Рысь" };
+            string[] soundTigers = new string[] { "Фррр! Фррр!", "Грр! Грр!", "Арр! Арр!", "Мурр! Мурр!" };
+            string[] soundBears = new string[] { "Ааа! Ааа!", "Ррр! Ррр!", "Фрр! Фрр!", "Мааа! Мааа!" };
+            string[] soundWolfs = new string[] { "Ууу! Ууу!", "Аууу! Аууу!", "Ммм! Ммм!", "Грр! Грр!" };
+            string[] soundLynxs = new string[] { "Ав! Ав!", "Мрр! Мрр!", "Кхх! Кхх!", "Кхх! Кхх!" };
 
             switch (beasts[index])
             {
                 case "Тигр":
-                    return new Animal(descriptionAviaryTigers, "Тигр", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundTigers));
+                    return new Animal("Тигр", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundTigers));
                 case "Медведь":
-                    return new Animal(descriptionAviaryBears, "Медведь", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundBears));
+                    return new Animal("Медведь", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundBears));
                 case "Волк":
-                    return new Animal(descriptionAviaryWolfs, "Волк", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundWolfs));
+                    return new Animal("Волк", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundWolfs));
                 case "Рысь":
-                    return new Animal(descriptionAviaryLynxs, "Рысь", UserUtils.GenerateRandomArrayWord(genders),UserUtils.GenerateRandomArrayWord(soundLynxs));
+                    return new Animal("Рысь", UserUtils.GenerateRandomArrayWord(genders), UserUtils.GenerateRandomArrayWord(soundLynxs));
             }
 
             return null;
-        }
-
-        private void DescribeAnimals(ref string[] genders, ref string[] beasts, ref string[] soundTigers, ref string[] soundBears, ref string[] soundWolfs, 
-            ref string[] soundLynxs, ref string descriptionAviaryTigers, ref string descriptionAviaryBears, ref string descriptionAviaryWolfs, ref string descriptionAviaryLynxs)
-        {
-            genders = new string[] { "Женский", "Мужской" };
-            beasts = new string[] { "Тигр", "Медведь", "Волк", "Рысь" };
-            soundTigers = new string[] { "Фррр! Фррр!", "Грр! Грр!", "Арр! Арр!", "Мурр! Мурр!" };
-            soundBears = new string[] { "Ааа! Ааа!", "Ррр! Ррр!", "Фрр! Фрр!", "Мааа! Мааа!" };
-            soundWolfs = new string[] { "Ууу! Ууу!", "Аууу! Аууу!", "Ммм! Ммм!", "Грр! Грр!" };
-            soundLynxs = new string[] { "Ав! Ав!", "Мрр! Мрр!", "Кхх! Кхх!", "Кхх! Кхх!" };
-
-            descriptionAviaryTigers = "Перед вами вольер с тиграми. Тигр — хищное млекопитающее семейства кошачьих, " +
-                "один из пяти видов рода пантер, принадлежащего к подсемейству больших кошек.";
-            descriptionAviaryBears = "Перед вами вольер с медведями. Медведь - крупное хищное всеядное млекопитающее с большим грузным, " +
-                "покрытым густой шерстью телом и короткими ногами.";
-            descriptionAviaryWolfs = "Перед вами вольер с волками. Волк – это хищное животное из класса млекопитающих. " +
-                "Множественные исследования показывают, что это предок собаки.";
-            descriptionAviaryLynxs = "Перед вами вольер с рысью. Хищное животное из семейства кошачьих, " +
-                "с заостренной мордой и очень острым зрением.";
         }
     }
 
     class Animal
     {
-        public Animal(string parameter, string appellation, string genus, string sound)
+        public Animal(string appellation, string genus, string sound)
         {
-            Characteristic = parameter;
             Name = appellation;
             Gender = genus;
             Noise = sound;
@@ -191,8 +194,6 @@
         public string Gender { get; private set; }
 
         public string Noise { get; private set; }
-
-        public string Characteristic { get; private set; }
 
         public void ShowInfoBeasts()
         {
