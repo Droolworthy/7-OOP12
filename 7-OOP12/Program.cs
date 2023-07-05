@@ -194,7 +194,6 @@
 
         public string Characteristic { get; private set; }
 
-
         public void ShowInfoBeasts()
         {
             Console.WriteLine("Имя - " + Name + " Пол - " + Gender + " Звук - " + Noise);
